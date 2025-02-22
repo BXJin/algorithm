@@ -1,0 +1,32 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+//lcs는 2차원 dp -> 최장수열이 무엇인지 판단가능
+//이분탐색을 통해 최장길이만 구할 수 있음
+int main()
+{
+	string str1;
+	string str2;
+	cin >> str1 >> str2;
+	int sz = str1.length();
+
+	vector<vector<int>> dp(str1.length() + 1, vector<int>(str2.length() + 1, 0));
+
+    int len1 = str1.length(), len2 = str2.length();
+    for (int i = 0; i < len1; i++)
+    {
+        for (int j = 0; j < len2; j++)
+        {
+            if (str1[i] == str2[j])
+                dp[i + 1][j + 1] = dp[i][j] + 1;
+            else
+                dp[i + 1][j + 1] = max(dp[i][j + 1], dp[i + 1][j]);
+        }
+    }
+    cout << dp[len1][len2];
+	return 0;
+}
+
