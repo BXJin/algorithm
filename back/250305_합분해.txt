@@ -1,0 +1,22 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main() 
+{
+	int N, K;
+	cin >> N >> K;
+
+	vector<int> dp(N + 1, 1);
+	for (int j = 0; j < K-1; j++)
+	{
+		for (int i = 1; i < N + 1; i++)
+		{
+			dp[i] = (dp[i] + dp[i - 1]) % 1000000000;
+		}
+	}
+	cout << dp[N];
+
+	return 0;
+}
