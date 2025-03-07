@@ -1,0 +1,54 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+vector<vector<int>> tree;
+int N;
+int deleteIdx;
+
+int dfs(int start) 
+{
+    if (start == deleteIdx) return 0;
+
+    // 현재 노드의 자식 중 삭제된 노드를 제외한 개수를 체크
+    int childCount = 0;
+    int leafCount = 0;
+
+    for (int next : tree[start]) 
+    {
+        if (next == deleteIdx) continue;
+        leafCount += dfs(next);
+        childCount++;
+    }
+
+    // 자식이 없는 경우, 즉 리프 노드인 경우 1을 반환
+    return (childCount == 0) ? 1 : leafCount;
+}
+
+int main() 
+{
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+
+    cin >> N;
+    tree.resize(N, vector<int>());
+    int rootIdx = 0;
+    for (int i = 0; i < N; i++)
+    {
+        int pIdx = 0;
+        cin >> pIdx;
+        if (pIdx == -1) rootIdx = i;
+        else tree[pIdx].push_back(i);
+    }
+    cin >> deleteIdx;
+
+    if (deleteIdx == rootIdx)
+    {
+        cout << 0;
+        return 0;
+    }
+
+    cout << dfs(rootIdx);
+
+    return 0;
+}
